@@ -30,7 +30,7 @@ export type DbtNode = {
 };
 export type DbtRawModelNode = DbtNode & {
     columns: { [name: string]: DbtModelColumn };
-    config?: { meta?: DbtModelMetadata };
+    config?: { meta?: DbtModelMetadata; materialized?: string };
     meta: DbtModelMetadata;
     database: string | null;
     schema: string;

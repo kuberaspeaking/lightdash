@@ -3,7 +3,8 @@ import { LightdashError } from '@lightdash/common';
 import { program } from 'commander';
 import * as os from 'os';
 import * as path from 'path';
-import { dbtRunHandler } from './handlers/dbt/run';
+import { compileHandler } from './handlers/compile';
+import { dbtCompileHandler, dbtRunHandler } from './handlers/dbt/run';
 import { generateHandler } from './handlers/generate';
 import * as styles from './styles';
 
@@ -118,6 +119,43 @@ ${styles.bold('Examples:')}
     .option('--full-refresh')
     .action(dbtRunHandler);
 
+dbtProgram
+    .command('compile')
+    .option('--project-dir <path>', 'The directory of the dbt project', '.')
+    .option(
+        '--profiles-dir <path>',
+        'The directory of the dbt profiles',
+        path.join(os.homedir(), '.dbt'),
+    )
+    .option('--profile <name>')
+    .option('-t, --target <target>')
+    .option('-x, --fail-fast')
+    .option('--threads <threads>')
+    .option('--no-version-check')
+    .option('-s, --select, <select> [selects...]')
+    .option('--state <state>')
+    .option('--defer')
+    .option('--no-defer')
+    .option('--full-refresh')
+    .action(dbtCompileHandler);
+
+program
+    .command('compile')
+    .description('Compile Lightdash resources')
+    .option('--project-dir <path>', 'The directory of the dbt project', '.')
+    .option(
+        '--profiles-dir <path>',
+        'The directory of the dbt profiles',
+        path.join(os.homedir(), '.dbt'),
+    )
+    .option(
+        '--profile <name>',
+        'The name of the profile to use (defaults to profile name in dbt_project.yml)',
+        undefined,
+    )
+    .option('--target <name>', 'target to use in profiles.yml file', undefined)
+    .action(compileHandler);
+
 program
     .command('generate')
     .description('Generates a new schema.yml file for model')
@@ -167,6 +205,7 @@ ${styles.bold('Examples:')}
         undefined,
     )
     .option('--target <name>', 'target to use in profiles.yml file', undefined)
+    .option('-y, --assume-yes', 'assume yes to prompts', false)
     .action(generateHandler);
 
 const errorHandler = (err: Error) => {
