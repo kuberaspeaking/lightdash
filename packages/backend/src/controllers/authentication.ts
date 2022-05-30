@@ -179,9 +179,18 @@ export const isAuthenticated: RequestHandler = (req, res, next) => {
         next(new AuthorizationError(`Failed to authorize user`));
     }
 };
-export const allowApiKeyAuthentication: RequestHandler = (req, res, next) => {
-    if (req.isAuthenticated()) {
+
+export const unauthorisedInDemo: RequestHandler = (req, res, next) => {
+    if (lightdashConfig.mode === LightdashMode.DEMO) {
+        throw new AuthorizationError('Action not available in demo');
+    } else {
         next();
     }
-    passport.authenticate('localapikey', { session: false })(req, res, next);
 };
+
+// export const allowApiKeyAuthentication: RequestHandler = (req, res, next) => {
+//     if (req.isAuthenticated()) {
+//         next();
+//     }
+//     passport.authenticate('localapikey', { session: false })(req, res, next);
+// };

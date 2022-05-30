@@ -38,6 +38,10 @@ import {
     OrganizationMemberProfile,
     OrganizationMemberRole,
 } from './types/organizationMemberProfile';
+import {
+    CreatePersonalAccessToken,
+    PersonalAccessToken,
+} from './types/personalAccessToken';
 import { SavedChart, Series } from './types/savedCharts';
 import { TableBase } from './types/table';
 import { LightdashUser } from './types/user';
@@ -435,6 +439,10 @@ export type ApiJobStartedResults = {
     jobUuid: string;
 };
 
+export type ApiCreateUserTokenResults = {
+    token: string;
+};
+
 export type ActivateUser = {
     firstName: string;
     lastName: string;
@@ -585,7 +593,10 @@ type ApiResults =
     | FilterableField[]
     | ProjectSavedChartStatus
     | undefined
-    | ApiJobStartedResults;
+    | ApiJobStartedResults
+    | ApiCreateUserTokenResults
+    | CreatePersonalAccessToken
+    | PersonalAccessToken;
 
 export type ApiResponse = {
     status: 'ok';
