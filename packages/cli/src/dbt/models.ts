@@ -1,5 +1,6 @@
 import {
     buildModelGraph,
+    DbtDoc,
     DbtManifest,
     DbtModelNode,
     DbtRawModelNode,
@@ -65,12 +66,6 @@ const generateModelYml = ({ model, table }: GenerateModelYamlArgs) => ({
     })),
 });
 
-type Doc = {
-    unique_id: string;
-    name: string;
-    block_contents: string;
-};
-
 const askOverwrite = async (message: string): Promise<boolean> => {
     const answers = await inquirer.prompt([
         {
@@ -109,7 +104,7 @@ const askOverwriteDescription = async (
 type FindAndUpdateModelYamlArgs = {
     model: CompiledModel;
     table: WarehouseTableSchema;
-    docs: Record<string, Doc>;
+    docs: Record<string, DbtDoc>;
     spinner: ora.Ora;
 };
 export const findAndUpdateModelYaml = async ({

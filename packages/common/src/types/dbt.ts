@@ -258,10 +258,17 @@ export type DbtMetricLightdashMetadata = {
     hidden?: boolean;
 };
 
+export type DbtDoc = {
+    unique_id: string;
+    name: string;
+    block_contents: string;
+};
+
 export interface DbtManifest {
     nodes: Record<string, DbtNode>;
     metadata: DbtRawManifestMetadata;
     metrics: Record<string, DbtMetric>;
+    docs: Record<string, DbtDoc>;
 }
 
 export interface DbtRawManifestMetadata {
