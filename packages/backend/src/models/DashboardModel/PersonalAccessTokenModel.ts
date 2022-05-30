@@ -2,11 +2,11 @@ import {
     CreatePersonalAccessToken,
     PersonalAccessToken,
     SessionUser,
-} from 'common';
+    UnexpectedDatabaseError,
+} from '@lightdash/common';
 import * as crypto from 'crypto';
 import { Knex } from 'knex';
 import { DbPersonalAccessToken } from '../../database/entities/personalAccessTokens';
-import { UnexpectedDatabaseError } from '../../errors';
 
 export class PersonalAccessTokenModel {
     private readonly database: Knex;

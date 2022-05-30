@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
                 .timestamp('created_at', { useTz: false })
                 .notNullable()
                 .defaultTo(knex.fn.now());
-            tableBuilder.text('token_hash').notNullable().primary();
+            tableBuilder.text('token_hash').notNullable();
             tableBuilder.timestamp('expires_at', { useTz: false }).nullable();
         });
     }

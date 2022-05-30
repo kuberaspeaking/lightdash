@@ -2,9 +2,9 @@ import {
     CreatePersonalAccessToken,
     PersonalAccessToken,
     SessionUser,
-} from 'common';
-import { PersonalAccessTokenModel } from '../models/DashboardModel/PersonalAccessTokenModel';
+} from '@lightdash/common';
 import { analytics } from '../analytics/client';
+import { PersonalAccessTokenModel } from '../models/DashboardModel/PersonalAccessTokenModel';
 
 type Dependencies = {
     personalAccessTokenModel: PersonalAccessTokenModel;
