@@ -1,5 +1,5 @@
 import { Button, Card, InputGroup, Intent } from '@blueprintjs/core';
-import { CreatePersonalAccessToken } from '@lightdash/common';
+import { CreatePersonalAccessToken, formatTimestamp } from '@lightdash/common';
 import React, { FC, useEffect } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { useForm } from 'react-hook-form';
@@ -12,23 +12,24 @@ import {
     InviteForm,
     InviteFormGroup,
     Panel,
+    ShareLinkCallout,
     SubmitButton,
 } from './CreateTokens.styles';
 
 const CreateTokenPanel: FC<{
     onBackClick: () => void;
 }> = ({ onBackClick }) => {
-    const { showToastSuccess, health } = useApp();
+    const { showToastSuccess } = useApp();
     const { data, mutate, isError, isLoading, isSuccess } =
         useCreateAccessToken();
     const currentDate = new Date();
     const methods = useForm<CreatePersonalAccessToken>({
         mode: 'onSubmit',
         defaultValues: {
+            //Hardcoded expire date
             expiresAt: new Date(currentDate.setDate(currentDate.getDate() + 7)),
         },
     });
-    console.log(data);
 
     useEffect(() => {
         if (isError) {
@@ -73,17 +74,8 @@ const CreateTokenPanel: FC<{
                 </InviteForm>
             </Card>
             {data && (
-                <InviteFormGroup
-                    label={
-                        data?.token ? undefined : (
-                            <span>
-                                <b>Your token</b> has been generated
-                            </span>
-                        )
-                    }
-                    labelFor="invite-link-input"
-                >
-                    {data?.token && (
+                <InviteFormGroup labelFor="invite-link-input">
+                    {data.token && (
                         <InvitedCallout intent="success">
                             Your token has been generated.
                         </InvitedCallout>
@@ -100,7 +92,7 @@ const CreateTokenPanel: FC<{
                                 options={{ message: 'Copied' }}
                                 onCopy={() =>
                                     showToastSuccess({
-                                        title: 'Invite link copied',
+                                        title: 'Token copied',
                                     })
                                 }
                             >
@@ -108,10 +100,10 @@ const CreateTokenPanel: FC<{
                             </CopyToClipboard>
                         }
                     />
-                    {/* <ShareLinkCallout intent="primary">
-                       
+                    <ShareLinkCallout intent="primary">
+                        This token will expire on, make sure you cop
                         <b>{formatTimestamp(data.expiresAt)}</b>
-                    </ShareLinkCallout> */}
+                    </ShareLinkCallout>
                 </InviteFormGroup>
             )}
         </Panel>

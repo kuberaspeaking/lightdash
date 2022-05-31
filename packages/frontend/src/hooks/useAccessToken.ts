@@ -23,6 +23,14 @@ const createAccessToken = async (data: CreatePersonalAccessToken) =>
         body: JSON.stringify(data),
     });
 
+// TBC
+// const deleteAccessToken = async (tokenUuid: string) =>
+//     lightdashApi<undefined>({
+//         url: `/me//personal-access-tokens/${tokenUuid}`,
+//         method: 'DELETE',
+//         body: undefined,
+//     });
+
 export const useAccessToken = () => {
     const setErrorResponse = useQueryError();
     return useQuery<any[], ApiError>({

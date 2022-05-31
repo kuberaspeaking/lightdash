@@ -6,7 +6,7 @@ import {
     Intent,
     NonIdealState,
 } from '@blueprintjs/core';
-import { PersonalAccessToken } from '@lightdash/common';
+import { formatDate, PersonalAccessToken } from '@lightdash/common';
 import React, { FC, useState } from 'react';
 import { useAccessToken } from '../../../hooks/useAccessToken';
 import CreateTokenPanel from '../CreateTokenPanel';
@@ -25,7 +25,10 @@ const TokenListItem: FC<{
 }> = ({ token }) => {
     const { description, expiresAt, uuid } = token;
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+    // Hardcoded TO BE DELETED
     const isDeleting = false;
+
     return (
         <AccessTokenWrapper elevation={0}>
             <ItemContent>
@@ -37,7 +40,7 @@ const TokenListItem: FC<{
                     </AccessTokenLabel>
                     <ExpireAtLabel intent={expiresAt ? 'warning' : 'none'}>
                         {expiresAt
-                            ? `Expires on ${expiresAt}`
+                            ? `Expires on ${formatDate(expiresAt)}`
                             : 'No expiration date'}
                     </ExpireAtLabel>
                 </AccessTokenInfo>
@@ -58,7 +61,7 @@ const TokenListItem: FC<{
                 onClose={() =>
                     !isDeleting ? setIsDeleteDialogOpen(false) : undefined
                 }
-                title={'Delete project ' + description}
+                title={`Delete token ${description}`}
                 lazy
                 canOutsideClickClose={false}
             >
@@ -81,7 +84,6 @@ const TokenListItem: FC<{
                             intent="danger"
                             onClick={() => {
                                 //  mutate(uuid);
-                                window.location.href = '/';
                             }}
                         >
                             Delete
