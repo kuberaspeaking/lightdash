@@ -1,11 +1,7 @@
 import {
     ApiCreateUserTokenResults,
     ApiError,
-    ApiFlashResults,
     CreatePersonalAccessToken,
-    CreateProject,
-    PersonalAccessToken,
-    UpdateProject,
 } from '@lightdash/common';
 import { useMutation, useQuery } from 'react-query';
 import { lightdashApi } from '../api';
@@ -14,7 +10,7 @@ import useQueryError from './useQueryError';
 
 // gets users access tokens
 const getAccessToken = async () =>
-    lightdashApi<any>({
+    lightdashApi<any[]>({
         url: `/me/personal-access-tokens`,
         method: 'GET',
         body: undefined,
@@ -29,7 +25,7 @@ const createAccessToken = async (data: CreatePersonalAccessToken) =>
 
 export const useAccessToken = () => {
     const setErrorResponse = useQueryError();
-    return useQuery<any, ApiError>({
+    return useQuery<any[], ApiError>({
         queryKey: ['personal_access_tokens'],
         queryFn: () => getAccessToken(),
         retry: false,

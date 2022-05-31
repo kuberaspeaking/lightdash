@@ -1,11 +1,10 @@
 import { Button, Card, InputGroup, Intent } from '@blueprintjs/core';
-import { CreatePersonalAccessToken, formatTimestamp } from '@lightdash/common';
+import { CreatePersonalAccessToken } from '@lightdash/common';
 import React, { FC, useEffect } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { useForm } from 'react-hook-form';
 import { useCreateAccessToken } from '../../../hooks/useAccessToken';
 import { useApp } from '../../../providers/AppProvider';
-
 import {
     BackButton,
     EmailInput,
@@ -13,8 +12,6 @@ import {
     InviteForm,
     InviteFormGroup,
     Panel,
-    RoleSelectButton,
-    ShareLinkCallout,
     SubmitButton,
 } from './CreateTokens.styles';
 
@@ -26,6 +23,9 @@ const CreateTokenPanel: FC<{
         useCreateAccessToken();
     const methods = useForm<Omit<CreatePersonalAccessToken, 'expiresAt'>>({
         mode: 'onSubmit',
+        defaultValues: {
+            createdAt: new Date(Date.now()),
+        },
     });
     console.log(data);
 

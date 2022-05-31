@@ -1,5 +1,5 @@
 export type PersonalAccessToken = {
-    uuid: string;
+    uuid?: string;
     createdAt: Date;
     expiresAt: Date | undefined;
     description: string;
@@ -7,5 +7,5 @@ export type PersonalAccessToken = {
 
 export type CreatePersonalAccessToken = Pick<
     PersonalAccessToken,
-    'expiresAt' | 'description'
+    'createdAt' | 'expiresAt' | 'description'
 >;

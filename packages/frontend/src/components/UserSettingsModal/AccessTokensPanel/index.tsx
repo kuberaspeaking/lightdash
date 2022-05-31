@@ -4,22 +4,20 @@ import {
     Classes,
     Dialog,
     Intent,
+    NonIdealState,
 } from '@blueprintjs/core';
 import { PersonalAccessToken } from '@lightdash/common';
 import React, { FC, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
 import { useAccessToken } from '../../../hooks/useAccessToken';
-import { useApp } from '../../../providers/AppProvider';
-import { TrackPage } from '../../../providers/TrackingProvider';
 import CreateTokenPanel from '../CreateTokenPanel';
 import {
+    AccessTokenInfo,
+    AccessTokenLabel,
+    AccessTokensPanelWrapper,
+    AccessTokenWrapper,
+    ExpireAtLabel,
     HeaderActions,
     ItemContent,
-    AccessTokenInfo,
-    AccessTokenWrapper,
-    AccessTokensPanelWrapper,
-    AccessTokenLabel,
-    ExpireAtLabel,
 } from './AccessTokens.styles';
 
 const TokenListItem: FC<{
@@ -60,7 +58,7 @@ const TokenListItem: FC<{
                 onClose={() =>
                     !isDeleting ? setIsDeleteDialogOpen(false) : undefined
                 }
-                title={'Delete project ' + name}
+                title={'Delete project ' + description}
                 lazy
                 canOutsideClickClose={false}
             >
@@ -96,10 +94,7 @@ const TokenListItem: FC<{
 };
 
 const AccessTokensPanel: FC = () => {
-    const { user } = useApp();
     const { data } = useAccessToken();
-    const history = useHistory();
-    console.log({ user, data });
     const [createTokenPanel, setCreateInvitesPanel] = useState(false);
 
     if (createTokenPanel) {
@@ -112,20 +107,39 @@ const AccessTokensPanel: FC = () => {
 
     return (
         <AccessTokensPanelWrapper>
-            <HeaderActions>
-                <Button
-                    intent="primary"
-                    onClick={() => setCreateInvitesPanel(true)}
-                    text="Generate new token"
+            {data && (
+                <HeaderActions>
+                    <Button
+                        intent="primary"
+                        onClick={() => setCreateInvitesPanel(true)}
+                        text="Generate new token"
+                    />
+                </HeaderActions>
+            )}
+            {data ? (
+                <div>
+                    {data?.map((token) => (
+                        <>
+                            <TokenListItem key={token.uuid} token={token} />
+                        </>
+                    ))}
+                </div>
+            ) : (
+                <NonIdealState
+                    icon="key"
+                    title="No tokens"
+                    description="You haven't generated any tokens yet!, generate your first token"
+                    action={
+                        <HeaderActions>
+                            <Button
+                                intent="primary"
+                                onClick={() => setCreateInvitesPanel(true)}
+                                text="Generate token"
+                            />
+                        </HeaderActions>
+                    }
                 />
-            </HeaderActions>
-            <div>
-                {/* {data?.map((token) => (
-                    <>
-                        <TokenListItem key={token.uuid} token={token} />
-                    </>
-                ))} */}
-            </div>
+            )}
         </AccessTokensPanelWrapper>
     );
 };
