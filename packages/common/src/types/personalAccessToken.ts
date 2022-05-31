@@ -7,5 +7,5 @@ export type PersonalAccessToken = {
 
 export type CreatePersonalAccessToken = Pick<
     PersonalAccessToken,
-    'createdAt' | 'expiresAt' | 'description'
+    'expiresAt' | 'description'
 >;

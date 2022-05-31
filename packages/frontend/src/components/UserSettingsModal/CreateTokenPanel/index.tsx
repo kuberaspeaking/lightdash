@@ -21,10 +21,11 @@ const CreateTokenPanel: FC<{
     const { showToastSuccess, health } = useApp();
     const { data, mutate, isError, isLoading, isSuccess } =
         useCreateAccessToken();
-    const methods = useForm<Omit<CreatePersonalAccessToken, 'expiresAt'>>({
+    const currentDate = new Date();
+    const methods = useForm<CreatePersonalAccessToken>({
         mode: 'onSubmit',
         defaultValues: {
-            createdAt: new Date(Date.now()),
+            expiresAt: new Date(currentDate.setDate(currentDate.getDate() + 7)),
         },
     });
     console.log(data);
