@@ -441,6 +441,7 @@ export type ApiJobStartedResults = {
 
 export type ApiCreateUserTokenResults = {
     token: string;
+    expiresAt: Date;
 };
 
 export type ActivateUser = {

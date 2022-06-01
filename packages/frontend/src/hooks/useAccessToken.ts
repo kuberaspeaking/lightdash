@@ -11,14 +11,14 @@ import useQueryError from './useQueryError';
 // gets users access tokens
 const getAccessToken = async () =>
     lightdashApi<any[]>({
-        url: `/me/personal-access-tokens`,
+        url: `/user/me/personal-access-tokens`,
         method: 'GET',
         body: undefined,
     });
 
 const createAccessToken = async (data: CreatePersonalAccessToken) =>
     lightdashApi<ApiCreateUserTokenResults>({
-        url: `/me/personal-access-tokens`,
+        url: `/user/me/personal-access-tokens`,
         method: 'POST',
         body: JSON.stringify(data),
     });

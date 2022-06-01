@@ -160,6 +160,9 @@ userRouter.get(
                     results,
                 }),
             )
-            .catch(next);
+            .catch((e) => {
+                console.error(e);
+                next(e);
+            });
     },
 );

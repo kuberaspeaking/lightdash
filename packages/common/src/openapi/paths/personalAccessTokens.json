@@ -6,6 +6,7 @@
         "operationId": "getPersonalAccessTokens",
         "responses": {
             "200": {
+                "description": "List all personal access tokens for user",
                 "content": {
                     "application/json": {
                         "schema": {
