@@ -1,19 +1,20 @@
 import { Button, Card, InputGroup, Intent } from '@blueprintjs/core';
 import { CreatePersonalAccessToken, formatTimestamp } from '@lightdash/common';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { useForm } from 'react-hook-form';
 import { useCreateAccessToken } from '../../../hooks/useAccessToken';
 import { useApp } from '../../../providers/AppProvider';
 import {
+    AccessTokenForm,
     BackButton,
-    EmailInput,
+    ExpireDateSelect,
     InvitedCallout,
-    InviteForm,
     InviteFormGroup,
     Panel,
     ShareLinkCallout,
     SubmitButton,
+    TokeDescriptionInput,
 } from './CreateTokens.styles';
 
 const CreateTokenPanel: FC<{
@@ -22,13 +23,11 @@ const CreateTokenPanel: FC<{
     const { showToastSuccess } = useApp();
     const { data, mutate, isError, isLoading, isSuccess } =
         useCreateAccessToken();
+
+    const [expireDate, setExpireDate] = useState<Date | undefined>();
     const currentDate = new Date();
     const methods = useForm<CreatePersonalAccessToken>({
         mode: 'onSubmit',
-        defaultValues: {
-            //Hardcoded expire date
-            expiresAt: new Date(currentDate.setDate(currentDate.getDate() + 7)),
-        },
     });
 
     useEffect(() => {
@@ -40,8 +39,43 @@ const CreateTokenPanel: FC<{
     }, [isError, methods, isSuccess]);
 
     const handleSubmit = (formData: CreatePersonalAccessToken) => {
-        mutate(formData);
+        const expiredValue = !!Number(formData?.expiresAt)
+            ? new Date(
+                  currentDate.setDate(
+                      currentDate.getDate() + Number(formData?.expiresAt),
+                  ),
+              )
+            : undefined;
+        setExpireDate(expiredValue);
+
+        mutate({
+            description: formData.description,
+            expiresAt: expiredValue,
+        });
     };
+
+    const expireOptions = [
+        {
+            label: 'No expiration',
+            value: '',
+        },
+        {
+            label: '7 days',
+            value: 7,
+        },
+        {
+            label: '30 days',
+            value: 30,
+        },
+        {
+            label: '60 days',
+            value: 30,
+        },
+        {
+            label: '90 days',
+            value: 90,
+        },
+    ];
 
     return (
         <Panel>
@@ -51,12 +85,12 @@ const CreateTokenPanel: FC<{
                 onClick={onBackClick}
             />
             <Card>
-                <InviteForm
+                <AccessTokenForm
                     name="generate-token"
                     methods={methods}
                     onSubmit={handleSubmit}
                 >
-                    <EmailInput
+                    <TokeDescriptionInput
                         name="description"
                         label="What’s this token for?"
                         disabled={isLoading}
@@ -64,14 +98,17 @@ const CreateTokenPanel: FC<{
                             required: 'Required field',
                         }}
                     />
-
+                    <ExpireDateSelect
+                        name="expiresAt"
+                        options={expireOptions}
+                    />
                     <SubmitButton
                         intent={Intent.PRIMARY}
                         text={'Generate token'}
                         type="submit"
                         disabled={isLoading}
                     />
-                </InviteForm>
+                </AccessTokenForm>
             </Card>
             {data && (
                 <InviteFormGroup labelFor="invite-link-input">
@@ -101,8 +138,11 @@ const CreateTokenPanel: FC<{
                         }
                     />
                     <ShareLinkCallout intent="primary">
-                        This token will expire on, make sure you cop
-                        <b>{formatTimestamp(data.expiresAt)}</b>
+                        {expireDate &&
+                            `This token will expire on
+                        ${formatTimestamp(expireDate)} `}
+                        Make sure to copy your personal access token now. You
+                        won’t be able to see it again!
                     </ShareLinkCallout>
                 </InviteFormGroup>
             )}

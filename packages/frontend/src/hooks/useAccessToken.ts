@@ -3,7 +3,7 @@ import {
     ApiError,
     CreatePersonalAccessToken,
 } from '@lightdash/common';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { lightdashApi } from '../api';
 import { useApp } from '../providers/AppProvider';
 import useQueryError from './useQueryError';
@@ -23,13 +23,12 @@ const createAccessToken = async (data: CreatePersonalAccessToken) =>
         body: JSON.stringify(data),
     });
 
-// TBC
-// const deleteAccessToken = async (tokenUuid: string) =>
-//     lightdashApi<undefined>({
-//         url: `/me//personal-access-tokens/${tokenUuid}`,
-//         method: 'DELETE',
-//         body: undefined,
-//     });
+const deleteAccessToken = async (tokenUuid: string) =>
+    lightdashApi<undefined>({
+        url: `user/me/personal-access-tokens/`,
+        method: 'DELETE',
+        body: undefined,
+    });
 
 export const useAccessToken = () => {
     const setErrorResponse = useQueryError();
@@ -42,6 +41,7 @@ export const useAccessToken = () => {
 };
 
 export const useCreateAccessToken = () => {
+    const queryClient = useQueryClient();
     const { showToastError } = useApp();
     return useMutation<
         ApiCreateUserTokenResults,
@@ -50,12 +50,32 @@ export const useCreateAccessToken = () => {
     >((data) => createAccessToken(data), {
         mutationKey: ['personal_access_tokens'],
         retry: 3,
-        onSuccess: (data) => {
-            console.log(data);
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries('personal_access_tokens');
         },
         onError: (error) => {
             showToastError({
                 title: `Failed to create token`,
+                subtitle: error.error.message,
+            });
+        },
+    });
+};
+
+export const useDeleteAccessToken = () => {
+    const queryClient = useQueryClient();
+    const { showToastSuccess, showToastError } = useApp();
+    return useMutation<undefined, ApiError, string>(deleteAccessToken, {
+        mutationKey: ['personal_access_tokens'],
+        onSuccess: async () => {
+            await queryClient.invalidateQueries('personal_access_tokens');
+            showToastSuccess({
+                title: `Success! Your token was deleted.`,
+            });
+        },
+        onError: (error) => {
+            showToastError({
+                title: `Failed to delete token`,
                 subtitle: error.error.message,
             });
         },

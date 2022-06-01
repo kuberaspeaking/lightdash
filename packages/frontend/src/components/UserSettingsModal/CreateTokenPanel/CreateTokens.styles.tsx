@@ -17,12 +17,12 @@ export const BackButton = styled(SimpleButton)`
     margin-bottom: 20px;
 `;
 
-export const InviteForm = styled(Form)`
+export const AccessTokenForm = styled(Form)`
     display: flex;
     align-items: flex-start;
 `;
 
-export const EmailInput = styled(Input)`
+export const TokeDescriptionInput = styled(Input)`
     flex: 1;
     margin: 0;
     max-width: 166px !important;
@@ -52,7 +52,7 @@ export const ShareLinkCallout = styled(Callout)`
     margin-top: 10px;
 `;
 
-export const RoleSelectButton = styled(Select)`
+export const ExpireDateSelect = styled(Select)`
     margin: 20px 7px 0;
     width: 75.5px !important;
 `;

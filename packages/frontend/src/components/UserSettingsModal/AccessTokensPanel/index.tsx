@@ -8,7 +8,10 @@ import {
 } from '@blueprintjs/core';
 import { formatDate, PersonalAccessToken } from '@lightdash/common';
 import React, { FC, useState } from 'react';
-import { useAccessToken } from '../../../hooks/useAccessToken';
+import {
+    useAccessToken,
+    useDeleteAccessToken,
+} from '../../../hooks/useAccessToken';
 import CreateTokenPanel from '../CreateTokenPanel';
 import {
     AccessTokenInfo,
@@ -25,10 +28,7 @@ const TokenListItem: FC<{
 }> = ({ token }) => {
     const { description, expiresAt, uuid } = token;
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
-    // Hardcoded TO BE DELETED
-    const isDeleting = false;
-
+    const { mutate, isLoading: isDeleting } = useDeleteAccessToken();
     return (
         <AccessTokenWrapper elevation={0}>
             <ItemContent>
@@ -83,7 +83,7 @@ const TokenListItem: FC<{
                             disabled={isDeleting}
                             intent="danger"
                             onClick={() => {
-                                //  mutate(uuid);
+                                mutate(uuid || '');
                             }}
                         >
                             Delete
