@@ -4,17 +4,21 @@
         "uuid": {
             "type": "string"
         },
+        "token": {
+            "type": "string"
+        },
         "createdAt": {
             "type": "string",
             "format": "date-time"
         },
         "expiresAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
         },
         "description": {
             "type": "string"
         }
     },
-    "required": ["uuid", "createdAt", "description"]
+    "required": ["createdAt", "description"]
 }

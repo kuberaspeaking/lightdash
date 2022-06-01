@@ -88,7 +88,7 @@
         "/jobs/{jobUuid}": {
             "$ref": "./paths/job.json"
         },
-        "/me/personal-access-tokens": {
+        "/user/me/personal-access-tokens": {
             "$ref": "./paths/personalAccessTokens.json"
         }
     },
