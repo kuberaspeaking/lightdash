@@ -160,9 +160,22 @@ userRouter.get(
                     results,
                 }),
             )
-            .catch((e) => {
-                console.error(e);
-                next(e);
-            });
+            .catch(next);
+    },
+);
+
+userRouter.delete(
+    '/me/personal-access-tokens/:tokenUuid',
+    isAuthenticated,
+    unauthorisedInDemo,
+    async (req, res, next) => {
+        personalAccessTokenService
+            .deletePersonalAccessToken(req.user!, req.params.tokenUuid)
+            .then(() =>
+                res.json({
+                    status: 'ok',
+                }),
+            )
+            .catch(next);
     },
 );
