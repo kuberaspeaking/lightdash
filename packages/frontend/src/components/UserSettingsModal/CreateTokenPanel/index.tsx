@@ -69,7 +69,7 @@ const CreateTokenPanel: FC<{
         },
         {
             label: '60 days',
-            value: 30,
+            value: 60,
         },
         {
             label: '90 days',

@@ -25,7 +25,7 @@ const createAccessToken = async (data: CreatePersonalAccessToken) =>
 
 const deleteAccessToken = async (tokenUuid: string) =>
     lightdashApi<undefined>({
-        url: `user/me/personal-access-tokens/`,
+        url: `/user/me/personal-access-tokens/${tokenUuid}`,
         method: 'DELETE',
         body: undefined,
     });

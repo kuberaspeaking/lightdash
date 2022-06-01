@@ -98,7 +98,7 @@ const TokenListItem: FC<{
 const AccessTokensPanel: FC = () => {
     const { data } = useAccessToken();
     const [createTokenPanel, setCreateInvitesPanel] = useState(false);
-
+    const hasAvailableTokens = data && data?.length > 0;
     if (createTokenPanel) {
         return (
             <CreateTokenPanel
@@ -109,7 +109,7 @@ const AccessTokensPanel: FC = () => {
 
     return (
         <AccessTokensPanelWrapper>
-            {data && (
+            {hasAvailableTokens && (
                 <HeaderActions>
                     <Button
                         intent="primary"
@@ -118,7 +118,7 @@ const AccessTokensPanel: FC = () => {
                     />
                 </HeaderActions>
             )}
-            {data ? (
+            {hasAvailableTokens ? (
                 <div>
                     {data?.map((token) => (
                         <>
