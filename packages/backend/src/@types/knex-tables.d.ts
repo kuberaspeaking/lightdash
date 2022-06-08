@@ -51,6 +51,10 @@ import {
     PasswordResetTableName,
 } from '../database/entities/passwordResetLinks';
 import {
+    PersonalAccessTokenTable,
+    PersonalAccessTokenTableName,
+} from '../database/entities/personalAccessTokens';
+import {
     CachedExploresTable,
     CachedExploresTableName,
     CachedWarehouseTable,
@@ -77,10 +81,6 @@ import {
     WarehouseCredentialTable,
     WarehouseCredentialTableName,
 } from '../database/entities/warehouseCredentials';
-import {
-    PersonalAccessTokenTable,
-    PersonalAccessTokenTableName,
-} from '../database/entities/personalAccessTokens';
 
 declare module 'knex/types/tables' {
     interface Tables {

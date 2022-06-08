@@ -37,15 +37,15 @@ import {
     createPasswordLogin,
     PasswordLoginTableName,
 } from '../database/entities/passwordLogins';
+import { DbPersonalAccessToken } from '../database/entities/personalAccessTokens';
 import {
     DbUser,
     DbUserIn,
     DbUserUpdate,
     UserTableName,
 } from '../database/entities/users';
-import Transaction = Knex.Transaction;
 import { PersonalAccessTokenModel } from './DashboardModel/PersonalAccessTokenModel';
-import { DbPersonalAccessToken } from '../database/entities/personalAccessTokens';
+import Transaction = Knex.Transaction;
 
 export type DbUserDetails = {
     user_id: number;

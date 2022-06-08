@@ -1,7 +1,6 @@
 import EmailClient from '../clients/EmailClient/EmailClient';
 import { lightdashConfig } from '../config/lightdashConfig';
 import {
-    personalAccessTokenModel,
     dashboardModel,
     emailModel,
     inviteLinkModel,
@@ -11,6 +10,7 @@ import {
     organizationMemberProfileModel,
     organizationModel,
     passwordResetLinkModel,
+    personalAccessTokenModel,
     projectModel,
     savedChartModel,
     sessionModel,
@@ -19,10 +19,10 @@ import {
 import { DashboardService } from './DashboardService/DashboardService';
 import { HealthService } from './HealthService/HealthService';
 import { OrganizationService } from './OrganizationService/OrganizationService';
+import { PersonalAccessTokenService } from './PersonalAccessTokenService';
 import { ProjectService } from './ProjectService/ProjectService';
 import { SavedChartService } from './SavedChartsService/SavedChartService';
 import { UserService } from './UserService';
-import { PersonalAccessTokenService } from './PersonalAccessTokenService';
 
 const emailClient = new EmailClient({ lightdashConfig });
 
