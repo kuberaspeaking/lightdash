@@ -172,23 +172,21 @@ const UserSettingsModal: FC<Props> = ({
                                 }
                             />
                         )}
-                    {orgData &&
-                        !orgData.needsProject &&
-                        user.data?.ability?.can('manage', 'Project') && (
-                            <Tab
-                                id="access-token"
-                                title="Personal access tokens"
-                                panel={
-                                    <TrackPage
-                                        name={PageName.ACCESS_TOKENS}
-                                        type={PageType.MODAL}
-                                        category={CategoryName.SETTINGS}
-                                    >
-                                        <AccessTokensPanel />
-                                    </TrackPage>
-                                }
-                            />
-                        )}
+                    {orgData && (
+                        <Tab
+                            id="access-token"
+                            title="Personal access tokens"
+                            panel={
+                                <TrackPage
+                                    name={PageName.ACCESS_TOKENS}
+                                    type={PageType.MODAL}
+                                    category={CategoryName.SETTINGS}
+                                >
+                                    <AccessTokensPanel />
+                                </TrackPage>
+                            }
+                        />
+                    )}
                     <Tabs.Expander />
                 </Tabs>
             </div>

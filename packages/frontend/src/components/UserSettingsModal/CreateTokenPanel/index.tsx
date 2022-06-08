@@ -25,7 +25,7 @@ const CreateTokenPanel: FC<{
         useCreateAccessToken();
 
     const [expireDate, setExpireDate] = useState<Date | undefined>();
-    const currentDate = new Date();
+
     const methods = useForm<CreatePersonalAccessToken>({
         mode: 'onSubmit',
     });
@@ -34,11 +34,10 @@ const CreateTokenPanel: FC<{
         if (isError) {
             methods.reset({ ...methods.getValues() }, { keepValues: true });
         }
-        if (isSuccess) {
-        }
     }, [isError, methods, isSuccess]);
 
     const handleSubmit = (formData: CreatePersonalAccessToken) => {
+        const currentDate = new Date();
         const expiredValue = !!Number(formData?.expiresAt)
             ? new Date(
                   currentDate.setDate(
